@@ -1,32 +1,43 @@
 <template>
     <div id="root">
         <Header/>
-        <View/>
-        <Letters/>
-        <Butttons/>
+        <br>
+        {{[...guessedClubs]}}
+        <br>
+        <ClubList v-bind:clubs="guessedClubs"/>
+        <Game
+            v-bind:clubs="remainedClubs"
+            v-bind:word="word"
+            @check-club="checkClub"
+            @push-letter="pushLetter"
+            @pop-letter="popLetter"
+        />
     </div>
 </template>
 
 <script lang="ts">
+import { defineComponent } from 'vue';
 import {ALL_CLUBS, TClub} from '@/constants';
 import Header from '@/components/Header.vue'
-import View from '@/components/View.vue'
-import Letters from '@/components/Letters.vue'
-import Butttons from '@/components/Buttons.vue'
+import ClubList from '@/components/ClubList.vue'
+import Game from '@/components/Game.vue'
+import { ILetter } from '@/types';
+import { getLetter } from '@/utils';
 
-export default {
+export default defineComponent({
     name: 'Main',
     components: {
         Header,
-        View,
-        Letters,
-        Butttons,
+        ClubList,
+        Game,
     },
     data() {
         return {
-            clubs: new Set<string>(ALL_CLUBS),
-            guessed: new Set<string>(),
+            allClubs: new Set<string>(ALL_CLUBS),
+            guessedClubs: new Set<string>(),
             remainedClubs: [...ALL_CLUBS],
+            word: [] as ILetter[],
+            mode: 'game',
             states: {
                 notGuessed: false,
                 alreadyGuessed: false,
@@ -35,22 +46,45 @@ export default {
         }
     },
     methods: {
-        check(club: string) {
-            if (!this.clubs.has(club)) {
+        checkClub() {
+            const club = this.word.map(getLetter).join('');
+
+            if (!this.allClubs.has(club)) {
                 this.states.notGuessed = true;
                 return;
             }
-            if (this.clubs.has(club) && this.guessed.has(club)) {
-                this.states.alreadyGuessed = true;
-                return;
+            if (this.allClubs.has(club)) {
+                if (this.guessedClubs.has(club)) {
+                    this.states.alreadyGuessed = true;
+                } else {
+                    this.states.guessed = true;
+                    this.guessClub(club);
+                }
             }
-            this.states.guessed = true;
-            this.guessClub(club);
         },
         guessClub(club: string) {
-            this.guessed.add(club);
-            this.remainedClubs = this.remainedClubs.filter(el => el !== club);
+            this.guessedClubs.add(club);
+            this.remainedClubs = this.remainedClubs.filter((el: TClub) => el !== club);
+            this.word = [];
+        },
+        pushLetter(letter: ILetter) {
+            this.word.push(letter);
+        },
+        popLetter() {
+            return this.word.pop();
+        },
+        resetStates() {
+            this.states.alreadyGuessed = false;
+            this.states.guessed = false;
+            this.states.notGuessed = false;
         },
     }
-}
+})
 </script>
+
+<style>
+    button {
+        cursor: pointer;
+        margin: 8px;
+    }
+</style>

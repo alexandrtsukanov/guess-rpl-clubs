@@ -1,0 +1,5 @@
+export { chooseInitLetters } from './chooseInitLetters'
+export { getLetter } from './getLetter'
+export { getLetters } from './getLetters'
+export { mapLetters } from './mapLetters'
+export { mixLetters } from './mixLetters'
