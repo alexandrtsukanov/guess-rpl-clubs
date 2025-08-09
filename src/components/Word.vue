@@ -24,6 +24,7 @@ export default defineComponent({
     },
     computed: {
         ownWord(): string {
+            console.log(this.word);    
             return getWord(this.word);
         }
     },

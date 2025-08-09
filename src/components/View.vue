@@ -3,6 +3,7 @@
         <Word v-bind:word="word"/>
         <Letters
             v-bind:clubs="clubs"
+            v-bind:word="word"
             @push-letter="pushLetter"
             @pop-letter="popLetter"
         />

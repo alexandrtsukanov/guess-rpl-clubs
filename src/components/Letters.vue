@@ -1,7 +1,7 @@
 <template>
     <div id="letters">
         <Letter
-            v-for:="letter in letters"
+            v-for:="letter in letters" :key="letter.id"
             v-bind:letter="letter"
             @click-letter="onClickLetter"
             @delete-letter="onDeleteLetter"
@@ -26,24 +26,33 @@ export default defineComponent({
             type: Array as PropType<TClub[]>,
             required: true,
         },
+        word: {
+            type: Array as PropType<ILetter[]>,
+            required: true,
+        },
     },
     data() {
         return {
             letters: [] as ILetter[],
             ownWord: [] as ILetter[],
+            currentClubs: [] as TClub[],
         }
     },
     mounted() {
-        this.letters = getLetters(this.clubs);    
+        this.letters = getLetters(this.clubs);
     },
     methods: {
         onClickLetter(letter: ILetter) {
-            if (letter.isClicked) {
+            if (letter.isSelected || letter.isGone) {
                 return;
             }
             this.$emit('push-letter', letter);
             this.ownWord.push(letter);
-            this.letters = this.letters.map(el => el.id === letter.id ? {...el, isClicked: true} : el);
+            this.letters = this.letters
+                .map(el => el.id === letter.id && !letter.isSpace
+                    ? {...el, isSelected: true}
+                    : el
+                );
         },
         onDeleteLetter() {
             if (!this.ownWord.length) {
@@ -52,14 +61,33 @@ export default defineComponent({
 
             this.$emit('pop-letter');
             const lastLetter = this.ownWord.pop();
-
+            
             if (!lastLetter) {
                 return;
             }
 
-            this.letters = this.letters.map(el => el.id === lastLetter.id ? {...el, isClicked: false} : el);
+            this.letters = this.letters
+                .map(el => el.id === lastLetter.id
+                    ? {...el, isSelected: false}
+                    : el
+                );
         },
-    }
+    },
+    // computed: {
+    //     ownLetters(): ILetter[] {
+    //         if (this.word.length === 0) {
+    //             return this.letters.map(letter =>
+    //                 letter.isSelected
+    //                     ? {...letter, isGone: true}
+    //                     : letter
+    //                 )
+    //         }
+    //         return this.letters;
+    //     },
+    //     ownWordComputed(): ILetter[] {
+    //         return this.word;
+    //     }
+    // }
 })
 </script>
 

@@ -70,7 +70,7 @@ export default defineComponent({
             this.word.push(letter);
         },
         popLetter() {
-            return this.word.pop();
+            this.word.pop();
         },
         resetStates() {
             this.states.alreadyGuessed = false;

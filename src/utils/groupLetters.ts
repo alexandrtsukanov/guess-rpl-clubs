@@ -1,21 +1,21 @@
-import { rowLen } from "@/constants";
-import { ILetter } from "@/types";
+// import { rowLen } from "@/constants";
+// import { ILetter } from "@/types";
 
-export const groupLetters = (letters: ILetter[]) => {
-    const result: ILetter[][] = [];
+// export const groupLetters = (letters: ILetter[]) => {
+//     const result: ILetter[][] = [];
 
-    let subArray: ILetter[] = [];
+//     let subArray: ILetter[] = [];
 
-    letters.forEach((letter) => {
-        subArray.push(letter);
+//     letters.forEach((letter) => {
+//         subArray.push(letter);
 
-        if (subArray.length === rowLen) {
-            result.push(subArray);
-            subArray = [];
-        }
-    })
-    
-    result.push(subArray);
+//         if (subArray.length === rowLen) {
+//             result.push(subArray);
+//             subArray = [];
+//         }
+//     })
 
-    return result;
-}
+//     result.push(subArray);
+
+//     return result;
+// }

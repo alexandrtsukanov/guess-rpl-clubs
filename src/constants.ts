@@ -52,7 +52,7 @@ export const ALL_CLUBS = [
 export type TClub = typeof ALL_CLUBS[number];
 
 export const clubsAmount = ALL_CLUBS.length;
-export const lettersAmount = 25;
+export const lettersAmount = 24;
 export const rowLen = 7;
 export const spacePosition = 23;
 export const abcStart = 1040;

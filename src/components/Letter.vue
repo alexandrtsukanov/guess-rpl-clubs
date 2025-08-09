@@ -3,8 +3,9 @@
         v-if="!letter.isCross"
         v-on:click="$emit('click-letter', letter)"
         v-bind:class="{
-            clicked: letter.isClicked,
+            selected: letter.isSelected,
             space: letter.isSpace,
+            gone: letter.isGone,
         }"
     >
         {{letter.title}}
@@ -40,6 +41,8 @@ export default defineComponent({
         border: .5px solid #111;
         border-radius: 8px;
         background: gainsboro;
+        font-size: 21px;
+        font-weight: 600;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -51,12 +54,16 @@ export default defineComponent({
         background: lightgray;
     }
 
-    .clicked, .clicked:hover {
+    .selected, .selected:hover {
         background: red;
         color: #fff;
     }
 
+    .gone {
+        opacity: 0;
+    }
+
     .space {
-        width: 104px;
+        width: 162px;
     }
 </style>

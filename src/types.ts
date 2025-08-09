@@ -1,7 +1,8 @@
 export interface ILetter {
     title: string;
-    id: number;
+    id: string;
     isSpace: boolean;
     isCross: boolean;
-    isClicked: boolean;
+    isSelected: boolean;
+    isGone: boolean;
 }

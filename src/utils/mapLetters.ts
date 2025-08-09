@@ -2,10 +2,11 @@ import { cross, space } from "@/constants"
 import { ILetter } from "@/types";
 
 export const mapLetters = (letters: string[]): ILetter[] =>
-    letters.map((letter, index) => ({
+    letters.map((letter) => ({
         title: letter,
-        id: index,
+        id: Math.random().toString().slice(2, 7),
         isSpace: letter === space,
         isCross: letter === cross,
-        isClicked: false,
+        isSelected: false,
+        isGone: false,
     }));
