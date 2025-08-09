@@ -2,7 +2,6 @@
     <div id="root">
         <Header/>
         <br>
-        {{[...guessedClubs]}}
         <br>
         <ClubList v-bind:clubs="guessedClubs"/>
         <Game
@@ -22,7 +21,7 @@ import Header from '@/components/Header.vue'
 import ClubList from '@/components/ClubList.vue'
 import Game from '@/components/Game.vue'
 import { ILetter } from '@/types';
-import { getLetter } from '@/utils';
+import { getWord } from '@/utils';
 
 export default defineComponent({
     name: 'Main',
@@ -42,12 +41,12 @@ export default defineComponent({
                 notGuessed: false,
                 alreadyGuessed: false,
                 guessed: false,
-            }
+            },
         }
     },
     methods: {
         checkClub() {
-            const club = this.word.map(getLetter).join('');
+            const club = getWord(this.word);
 
             if (!this.allClubs.has(club)) {
                 this.states.notGuessed = true;

@@ -1,10 +1,17 @@
 <template>
     <span
-        v-on:click="$emit('push-letter', letter)"
+        v-if="!letter.isCross"
+        v-on:click="$emit('click-letter', letter)"
         v-bind:class="{
-            invisible: !letter.isVisible,
+            clicked: letter.isClicked,
             space: letter.isSpace,
         }"
+    >
+        {{letter.title}}
+    </span>
+    <span
+        v-else
+        v-on:click="$emit('delete-letter')"
     >
         {{letter.title}}
     </span>
@@ -40,8 +47,13 @@ export default defineComponent({
         margin: 4px;
     }
 
-    .invisible {
-        opacity: 0;
+    span:hover {
+        background: lightgray;
+    }
+
+    .clicked, .clicked:hover {
+        background: red;
+        color: #fff;
     }
 
     .space {

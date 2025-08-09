@@ -1,5 +1,4 @@
 import { lettersAmount, clubsAmount, TClub } from "@/constants"
-import { getClub } from "./getClub";
 import { getRandomNum } from "./getRandomNum";
 
 export const chooseInitLetters = (remainedClubs: TClub[]): string[] => {
@@ -17,12 +16,12 @@ export const chooseInitLetters = (remainedClubs: TClub[]): string[] => {
 
         indexesHistory.add(index);
         const clubRaw = remainedClubs[index];
-        const club = getClub(clubRaw);
+        const club = clubRaw.replace(/\s/g, '');
         
         if (currentLen + club.length > maxSize) {
             break;
         }
-                
+
         console.log(club);
         currentLen += club.length;
 

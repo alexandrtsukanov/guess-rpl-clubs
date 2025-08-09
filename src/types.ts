@@ -3,5 +3,5 @@ export interface ILetter {
     id: number;
     isSpace: boolean;
     isCross: boolean;
-    isVisible: boolean;
+    isClicked: boolean;
 }

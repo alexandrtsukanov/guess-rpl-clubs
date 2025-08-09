@@ -3,8 +3,8 @@
         <Letter
             v-for:="letter in letters"
             v-bind:letter="letter"
-            v-bind:word="word"
-            @push-letter="onClickLetter"
+            @click-letter="onClickLetter"
+            @delete-letter="onDeleteLetter"
         />
     </div>
 </template>
@@ -30,23 +30,35 @@ export default defineComponent({
     data() {
         return {
             letters: [] as ILetter[],
+            ownWord: [] as ILetter[],
         }
     },
     mounted() {
-        this.letters = getLetters(this.clubs);        
+        this.letters = getLetters(this.clubs);    
     },
     methods: {
         onClickLetter(letter: ILetter) {
-            if (!letter.isVisible) {
+            if (letter.isClicked) {
                 return;
             }
             this.$emit('push-letter', letter);
-            this.letters = this.letters.map(el => el.id === letter.id ? {...el, isVisible: false} : el);
+            this.ownWord.push(letter);
+            this.letters = this.letters.map(el => el.id === letter.id ? {...el, isClicked: true} : el);
         },
-        // onDeleteLetter() {
-        //     this.$emit('pop-letter');
-        //     this.letters = this.letters.map(el => el.id === letter.id ? {...el, isVisible: false} : el);
-        // },
+        onDeleteLetter() {
+            if (!this.ownWord.length) {
+                return;
+            }
+
+            this.$emit('pop-letter');
+            const lastLetter = this.ownWord.pop();
+
+            if (!lastLetter) {
+                return;
+            }
+
+            this.letters = this.letters.map(el => el.id === lastLetter.id ? {...el, isClicked: false} : el);
+        },
     }
 })
 </script>

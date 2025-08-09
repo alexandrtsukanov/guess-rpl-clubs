@@ -7,5 +7,5 @@ export const mapLetters = (letters: string[]): ILetter[] =>
         id: index,
         isSpace: letter === space,
         isCross: letter === cross,
-        isVisible: true,
+        isClicked: false,
     }));

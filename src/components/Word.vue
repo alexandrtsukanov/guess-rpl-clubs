@@ -1,11 +1,6 @@
 <template>
-    <div id="word">
-        <div id="word-letters">
-            <Letter
-                v-for:="letter in word"
-                v-bind:letter="letter"
-            />
-        </div>
+    <div>
+        <p>{{ownWord}}</p>
         <hr>
     </div>
 </template>
@@ -14,6 +9,7 @@
 import { defineComponent, PropType } from 'vue'
 import Letter from '@/components/Letter.vue'
 import { ILetter } from '@/types'
+import { getWord } from '@/utils'
 
 export default defineComponent({
     name: 'Word',
@@ -26,22 +22,18 @@ export default defineComponent({
             required: true,
         }
     },
-    mounted() {
-        // console.log(this.word);
+    computed: {
+        ownWord(): string {
+            return getWord(this.word);
+        }
     },
 })
 </script>
 
 <style scoped>
-    #word {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #word-letters {
-        display: flex;
-        height: 64px;
+    p {
+        height: 32px;
+        margin: 0;
     }
 
     hr {
