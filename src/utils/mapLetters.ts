@@ -9,4 +9,5 @@ export const mapLetters = (letters: string[]): ILetter[] =>
         isCross: letter === cross,
         isSelected: false,
         isGone: false,
+        isHinted: false,
     }));

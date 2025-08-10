@@ -6,12 +6,12 @@ import { mixLetters } from "./mixLetters";
 import { addSymbols } from "./addSymbols";
 import { mapLetters } from "./mapLetters";
 
-export const getLetters = (clubs: TClub[]): ILetter[] => 
+export const getLetters = (clubs: TClub[], currentClubs: string[] = []): ILetter[] =>
     mapLetters(
         addSymbols(
             mixLetters(
                 completeLetters(
-                    chooseInitLetters(clubs)
+                    chooseInitLetters(clubs, currentClubs)
                 )
             )
         )

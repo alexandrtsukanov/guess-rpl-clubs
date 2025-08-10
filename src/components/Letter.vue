@@ -6,6 +6,7 @@
             selected: letter.isSelected,
             space: letter.isSpace,
             gone: letter.isGone,
+            hinted: letter.isHinted,
         }"
     >
         {{letter.title}}
@@ -52,6 +53,11 @@ export default defineComponent({
 
     span:hover {
         background: lightgray;
+    }
+
+    .hinted, .hinted:hover {
+        background: green;
+        color: #fff;
     }
 
     .selected, .selected:hover {

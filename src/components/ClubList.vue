@@ -1,6 +1,10 @@
 <template>
     <div>
-        {{clubs}}
+        <router-link to="/">BACK TO GAME</router-link>
+
+        <div v-for:="club in clubs" :key="club">
+            {{club}}
+        </div>
     </div>
 </template>
 
@@ -17,7 +21,7 @@ export default defineComponent({
     },
     computed: {
         clubs(): string[] {
-            return this.piniaState.getClubList();
+            return this.piniaState.getAllClubs();
         }
     }
 })

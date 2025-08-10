@@ -1,17 +1,17 @@
-import { lettersAmount, clubsAmount, TClub } from "@/constants"
+import { lettersAmount, TClub } from "@/constants"
 import { getRandomNum } from "./getRandomNum";
 
-export const chooseInitLetters = (remainedClubs: TClub[]): string[] => {
+export const chooseInitLetters = (remainedClubs: TClub[], currentClubs: string[] = []): string[] => {
     const maxSize = lettersAmount;
     let currentLen = 0;
     const chosenLetters: string[] = [];
     const indexesHistory = new Set<number>();
 
     while(true) {
-        let index = getRandomNum(0, clubsAmount);
+        let index = getRandomNum(0, remainedClubs.length);
 
         while(indexesHistory.has(index)) {
-            index = getRandomNum(0, clubsAmount);
+            index = getRandomNum(0, remainedClubs.length);
         }
 
         indexesHistory.add(index);
@@ -22,7 +22,7 @@ export const chooseInitLetters = (remainedClubs: TClub[]): string[] => {
             break;
         }
 
-        console.log(club);
+        currentClubs.push(clubRaw);
         currentLen += club.length;
 
         chosenLetters.push(...club);

@@ -25,15 +25,9 @@ export default defineComponent({
             type: Array as PropType<ILetter[]>,
             required: true,
         },
-        // word: {
-        //     type: Array as PropType<ILetter[]>,
-        //     required: true,
-        // },
     },
     data() {
         return {
-            // letters: [] as ILetter[],
-            // ownWord: [] as ILetter[],
             currentClubs: [] as TClub[],
         }
     },
@@ -44,52 +38,7 @@ export default defineComponent({
         popLetter() {
             this.$emit('pop-letter');
         },
-        // onClickLetter(letter: ILetter) {
-        //     if (letter.isSelected || letter.isGone) {
-        //         return;
-        //     }
-        //     this.$emit('push-letter', letter);
-        //     this.ownWord.push(letter);
-        //     this.letters = this.letters
-        //         .map(el => el.id === letter.id && !letter.isSpace
-        //             ? {...el, isSelected: true}
-        //             : el
-        //         );
-        // },
-        // onDeleteLetter() {
-        //     if (!this.ownWord.length) {
-        //         return;
-        //     }
-
-        //     this.$emit('pop-letter');
-        //     const lastLetter = this.ownWord.pop();
-            
-        //     if (!lastLetter) {
-        //         return;
-        //     }
-
-        //     this.letters = this.letters
-        //         .map(el => el.id === lastLetter.id
-        //             ? {...el, isSelected: false}
-        //             : el
-        //         );
-        // },
     },
-    // computed: {
-    //     ownLetters(): ILetter[] {
-    //         if (this.word.length === 0) {
-    //             return this.letters.map(letter =>
-    //                 letter.isSelected
-    //                     ? {...letter, isGone: true}
-    //                     : letter
-    //                 )
-    //         }
-    //         return this.letters;
-    //     },
-    //     ownWordComputed(): ILetter[] {
-    //         return this.word;
-    //     }
-    // }
 })
 </script>
 

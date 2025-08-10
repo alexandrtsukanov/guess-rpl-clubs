@@ -5,4 +5,5 @@ export interface ILetter {
     isCross: boolean;
     isSelected: boolean;
     isGone: boolean;
+    isHinted: boolean;
 }

@@ -12,7 +12,7 @@ export const useGuessedClubsStore = defineStore('guessedClubs', {
         addGuessedClub(club: string) {
             this.guessedClubs.add(club);
         },
-        getClubList() {
+        getAllClubs() {
             const clubs = [...this.guessedClubs] as TClub[];
             return clubs.reduce((allClubs: string[], club) => [...allClubs, ...getFullClubs(club)], []);
         }

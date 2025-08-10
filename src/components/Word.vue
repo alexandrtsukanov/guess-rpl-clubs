@@ -1,6 +1,7 @@
 <template>
     <div>
-        <p>{{ownWord}}</p>
+        <p v-if="ownWord.length">{{ownWord}}</p>
+        <p v-else id="empty-word">TEXT CLUB</p>
         <hr>
     </div>
 </template>
@@ -24,7 +25,6 @@ export default defineComponent({
     },
     computed: {
         ownWord(): string {
-            console.log(this.word);    
             return getWord(this.word);
         }
     },
@@ -33,8 +33,15 @@ export default defineComponent({
 
 <style scoped>
     p {
-        height: 32px;
-        margin: 0;
+        height: auto;
+        font-weight: 700;
+        font-size: 64px;
+        line-height: 72px;
+        letter-spacing: 4px;
+    }
+
+    #empty-word {
+        color: grey;
     }
 
     hr {

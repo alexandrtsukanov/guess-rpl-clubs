@@ -51,12 +51,12 @@ export const ALL_CLUBS = [
 
 export type TClub = typeof ALL_CLUBS[number];
 
-export const clubsAmount = ALL_CLUBS.length;
+export const clubsAmount = 52;
 export const lettersAmount = 24;
-export const rowLen = 7;
 export const spacePosition = 23;
 export const abcStart = 1040;
 export const abcEnd = 1072;
+export const hintsAmount = 12;
 
 export const divider = '-';
 export const space = ' ';
