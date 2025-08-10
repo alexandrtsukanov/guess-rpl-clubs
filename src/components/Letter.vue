@@ -1,7 +1,7 @@
 <template>
     <span
         v-if="!letter.isCross"
-        v-on:click="$emit('click-letter', letter)"
+        v-on:click="$emit('push-letter', letter)"
         v-bind:class="{
             selected: letter.isSelected,
             space: letter.isSpace,
@@ -12,7 +12,7 @@
     </span>
     <span
         v-else
-        v-on:click="$emit('delete-letter')"
+        v-on:click="$emit('pop-letter')"
     >
         {{letter.title}}
     </span>
@@ -61,6 +61,7 @@ export default defineComponent({
 
     .gone {
         opacity: 0;
+        cursor: auto;
     }
 
     .space {

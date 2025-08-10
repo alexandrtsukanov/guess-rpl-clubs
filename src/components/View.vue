@@ -2,8 +2,7 @@
     <div id="view">
         <Word v-bind:word="word"/>
         <Letters
-            v-bind:clubs="clubs"
-            v-bind:word="word"
+            v-bind:letters="letters"
             @push-letter="pushLetter"
             @pop-letter="popLetter"
         />
@@ -14,7 +13,6 @@
 import { defineComponent, PropType } from 'vue'
 import Word from '@/components/Word.vue'
 import Letters from '@/components/Letters.vue'
-import { TClub } from '@/constants'
 import { ILetter } from '@/types'
 
 export default defineComponent({
@@ -24,8 +22,8 @@ export default defineComponent({
         Letters,
     },
     props: {
-        clubs: {
-            type: Array as PropType<TClub[]>,
+        letters: {
+            type: Array as PropType<ILetter[]>,
             required: true,
         },
         word: {

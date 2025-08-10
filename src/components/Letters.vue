@@ -3,8 +3,8 @@
         <Letter
             v-for:="letter in letters" :key="letter.id"
             v-bind:letter="letter"
-            @click-letter="onClickLetter"
-            @delete-letter="onDeleteLetter"
+            @push-letter="pushLetter"
+            @pop-letter="popLetter"
         />
     </div>
 </template>
@@ -12,7 +12,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import Letter from '@/components/Letter.vue'
-import { getLetters } from '@/utils';
 import {TClub} from '@/constants';
 import {ILetter} from '@/types';
 
@@ -22,56 +21,59 @@ export default defineComponent({
         Letter,
     },
     props: {
-        clubs: {
-            type: Array as PropType<TClub[]>,
-            required: true,
-        },
-        word: {
+        letters: {
             type: Array as PropType<ILetter[]>,
             required: true,
         },
+        // word: {
+        //     type: Array as PropType<ILetter[]>,
+        //     required: true,
+        // },
     },
     data() {
         return {
-            letters: [] as ILetter[],
-            ownWord: [] as ILetter[],
+            // letters: [] as ILetter[],
+            // ownWord: [] as ILetter[],
             currentClubs: [] as TClub[],
         }
     },
-    mounted() {
-        this.letters = getLetters(this.clubs);
-    },
     methods: {
-        onClickLetter(letter: ILetter) {
-            if (letter.isSelected || letter.isGone) {
-                return;
-            }
+        pushLetter(letter: string) {
             this.$emit('push-letter', letter);
-            this.ownWord.push(letter);
-            this.letters = this.letters
-                .map(el => el.id === letter.id && !letter.isSpace
-                    ? {...el, isSelected: true}
-                    : el
-                );
         },
-        onDeleteLetter() {
-            if (!this.ownWord.length) {
-                return;
-            }
-
+        popLetter() {
             this.$emit('pop-letter');
-            const lastLetter = this.ownWord.pop();
-            
-            if (!lastLetter) {
-                return;
-            }
-
-            this.letters = this.letters
-                .map(el => el.id === lastLetter.id
-                    ? {...el, isSelected: false}
-                    : el
-                );
         },
+        // onClickLetter(letter: ILetter) {
+        //     if (letter.isSelected || letter.isGone) {
+        //         return;
+        //     }
+        //     this.$emit('push-letter', letter);
+        //     this.ownWord.push(letter);
+        //     this.letters = this.letters
+        //         .map(el => el.id === letter.id && !letter.isSpace
+        //             ? {...el, isSelected: true}
+        //             : el
+        //         );
+        // },
+        // onDeleteLetter() {
+        //     if (!this.ownWord.length) {
+        //         return;
+        //     }
+
+        //     this.$emit('pop-letter');
+        //     const lastLetter = this.ownWord.pop();
+            
+        //     if (!lastLetter) {
+        //         return;
+        //     }
+
+        //     this.letters = this.letters
+        //         .map(el => el.id === lastLetter.id
+        //             ? {...el, isSelected: false}
+        //             : el
+        //         );
+        // },
     },
     // computed: {
     //     ownLetters(): ILetter[] {

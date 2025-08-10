@@ -1,4 +1,10 @@
 import { createApp } from "vue";
+
 import App from "./App.vue";
 
-createApp(App).mount("#app");
+try {
+    const app = createApp(App)
+    app.mount("#app");
+} catch(error) {
+    console.log(error);
+}

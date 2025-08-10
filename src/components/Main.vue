@@ -1,21 +1,15 @@
 <template>
     <div id="root">
-        <Header/>
-        <br>
-        <br>
-        <ClubList v-bind:clubs="guessedClubs"/>
-        <Game
-            v-bind:clubs="remainedClubs"
-            v-bind:word="word"
-            @check-club="checkClub"
-            @push-letter="pushLetter"
-            @pop-letter="popLetter"
-        />
+            <Header/>
+            <br>
+            <ClubList/>
+            <Game/>
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Observer from 'mobx-vue-lite'
 import {ALL_CLUBS, TClub} from '@/constants';
 import Header from '@/components/Header.vue'
 import ClubList from '@/components/ClubList.vue'
@@ -26,6 +20,7 @@ import { getWord } from '@/utils';
 export default defineComponent({
     name: 'Main',
     components: {
+        Observer,
         Header,
         ClubList,
         Game,
@@ -36,12 +31,12 @@ export default defineComponent({
             guessedClubs: new Set<string>(),
             remainedClubs: [...ALL_CLUBS],
             word: [] as ILetter[],
-            mode: 'game',
             states: {
                 notGuessed: false,
                 alreadyGuessed: false,
                 guessed: false,
             },
+            letters: [] as ILetter[],
         }
     },
     methods: {
@@ -65,12 +60,17 @@ export default defineComponent({
             this.guessedClubs.add(club);
             this.remainedClubs = this.remainedClubs.filter((el: TClub) => el !== club);
             this.word = [];
+            // this.letters = this.letters.map((el) => el.id === letter.id ? {...el, isSelected: false} : el);
         },
         pushLetter(letter: ILetter) {
             this.word.push(letter);
         },
         popLetter() {
-            this.word.pop();
+            const letter = this.word.pop();
+            if (!letter) {
+                return;
+            }
+            this.letters = this.letters.map((el) => el.id === letter.id ? {...el, isSelected: false} : el);
         },
         resetStates() {
             this.states.alreadyGuessed = false;
@@ -84,6 +84,7 @@ export default defineComponent({
 <style>
     button {
         cursor: pointer;
+        padding: 4px 8px;
         margin: 8px;
     }
 </style>
