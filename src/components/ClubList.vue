@@ -5,26 +5,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject } from 'vue';
-import { TClub } from '@/constants';
-import { getFullClubs } from '@/utils';
-
-// const guessedClubs = useAppSelector(state => state.guessedClubs.guessedClubsList);
+import { defineComponent } from 'vue';
+import { useGuessedClubsStore } from '@/store';
 
 export default defineComponent({
     name: 'ClubList',
     data() {
         return {
-            clubs: []
+            piniaState: useGuessedClubsStore(),
         }
     },
-    // computed: {
-    //     ownClubs(): string[] {
-    //         console.log('ownClubs', [...store2.guessedClubs]);
-            
-    //         const clubs = [...store2.guessedClubs] as TClub[];
-    //         return clubs.reduce((allClubs: string[], club) => [...allClubs, ...getFullClubs(club)], []);
-    //     }
-    // }
+    computed: {
+        clubs(): string[] {
+            return this.piniaState.getClubList();
+        }
+    }
 })
 </script>

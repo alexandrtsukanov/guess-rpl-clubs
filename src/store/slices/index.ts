@@ -1,1 +1,0 @@
-export { guessedClubsSlice, addGuessedClub } from './guessedClubs.slice';

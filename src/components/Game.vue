@@ -19,6 +19,7 @@ import LowerButtons from '@/components/LowerButtons.vue'
 import UpperButtons from '@/components/UpperButtons.vue'
 import { ILetter } from '@/types';
 import { getLetters, getWord } from '@/utils';
+import { useGuessedClubsStore } from '@/store';
 
 export default defineComponent({
     name: 'Game',
@@ -39,6 +40,7 @@ export default defineComponent({
                 alreadyGuessed: false,
                 guessed: false,
             },
+            piniaState: useGuessedClubsStore(),
         }
     },
     methods: {
@@ -50,7 +52,7 @@ export default defineComponent({
                 this.states.notGuessed = true;
             } else {
                 if (this.allClubs.has(club)) {
-                    if (true) {
+                    if (this.piniaState.guessedClubs.has(club)) {
                         this.states.alreadyGuessed = true;
                     } else {
                         this.states.guessed = true;
@@ -61,8 +63,7 @@ export default defineComponent({
             }
         },
         guessClub(club: string) {
-            // useAppDispatch(addGuessedClub(club));
-            // state?.addGuessedClub(club); 
+            this.piniaState.addGuessedClub(club); 
             this.remainedClubs = this.remainedClubs.filter((el: TClub) => el !== club); // mobx
             this.word = [];
             this.letters = this.letters.map(letter => letter.isSelected ? {...letter, isGone: true} : letter);
