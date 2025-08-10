@@ -1,9 +1,10 @@
 <template>
     <div id="root">
-            <Header/>
-            <br>
-            <ClubList/>
-            <Game/>
+        <Mobx/>
+        <Header/>
+        <br>
+        <ClubList/>
+        <Game/>
     </div>
 </template>
 
@@ -14,6 +15,7 @@ import {ALL_CLUBS, TClub} from '@/constants';
 import Header from '@/components/Header.vue'
 import ClubList from '@/components/ClubList.vue'
 import Game from '@/components/Game.vue'
+import Mobx from '@/components/Mobx.vue'
 import { ILetter } from '@/types';
 import { getWord } from '@/utils';
 
@@ -24,6 +26,7 @@ export default defineComponent({
         Header,
         ClubList,
         Game,
+        Mobx,
     },
     data() {
         return {

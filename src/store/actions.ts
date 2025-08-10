@@ -1,5 +1,5 @@
-import { action } from 'mobx';
-import { store } from './store';
+// import { action } from 'mobx';
+// import { store } from './store';
 
 // const addGuessedClub = action((club: string) => {
 //     store.guessedClubs.add(club)
