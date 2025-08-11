@@ -20,7 +20,7 @@ export default defineComponent({
     },
     computed: {
         guessedClubsAmount() {
-            return this.piniaState.getAllClubs().length;
+            return this.piniaState.guessedFullClubs.length;
         }
     }
 })

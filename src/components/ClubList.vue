@@ -2,7 +2,7 @@
     <div>
         <router-link to="/">BACK TO GAME</router-link>
 
-        <div v-for:="club in clubs" :key="club">
+        <div v-for:="club in piniaState.guessedFullClubs" :key="club">
             {{club}}
         </div>
     </div>
@@ -19,10 +19,5 @@ export default defineComponent({
             piniaState: useGuessedClubsStore(),
         }
     },
-    computed: {
-        clubs(): string[] {
-            return this.piniaState.getAllClubs();
-        }
-    }
 })
 </script>

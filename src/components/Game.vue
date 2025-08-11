@@ -18,7 +18,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {ALL_CLUBS, hintsAmount, TClub} from '@/constants';
+import {ALL_CLUBS, hintsAmount} from '@/constants';
 import View from '@/components/View.vue'
 import LowerButtons from '@/components/LowerButtons.vue'
 import UpperButtons from '@/components/UpperButtons.vue'
@@ -37,7 +37,6 @@ export default defineComponent({
     data() {
         return {
             allClubs: new Set<string>(ALL_CLUBS),
-            remainedClubs: [...ALL_CLUBS],
             letters: [] as ILetter[],
             word: [] as ILetter[],
             currentClubs: [] as string[],
@@ -54,10 +53,7 @@ export default defineComponent({
         checkClub() {
             const club = getWord(this.word);
 
-            if (!this.allClubs.has(club)) {
-                this.states.notGuessed = true;
-                alert('NOT CORRECT')
-            } else {
+            if (this.allClubs.has(club)) {
                 if (this.piniaState.guessedClubs.has(club)) {
                     this.states.alreadyGuessed = true;
                     alert('ALREADY GUESSED')
@@ -65,12 +61,16 @@ export default defineComponent({
                     this.states.guessed = true;
                     this.guessClub(club);
                 } 
+            } else {
+                this.states.notGuessed = true;
+                alert('NOT CORRECT')
             }
         },
         guessClub(club: string) {
-            this.piniaState.addGuessedClub(club); 
-            this.remainedClubs = this.remainedClubs.filter((el: TClub) => el !== club);
+            this.piniaState.addGuessedClub(club);
+            this.piniaState.removeRemainedClub(club); 
             this.word = [];
+            this.unhint();
 
             if (this.currentClubs.includes(club)) {
                 this.letters = this.letters.map(letter => letter.isSelected ? {...letter, isGone: true} : letter);
@@ -82,7 +82,7 @@ export default defineComponent({
                 this.renewLetters();
             }
 
-            if (this.remainedClubs.length === 0) {
+            if (this.piniaState.remainedClubs.length === 0) {
                 alert('YOU WIN!');
             }
         },
@@ -111,7 +111,7 @@ export default defineComponent({
         },
         renewLetters() {
             this.currentClubs = [];
-            this.letters = getLetters(this.remainedClubs, this.currentClubs);
+            this.letters = getLetters(this.piniaState.remainedClubs, this.currentClubs);
             this.word = [];
             console.log('currentClubs =>', this.currentClubs);
         },
@@ -121,8 +121,8 @@ export default defineComponent({
                 return;
             }
 
-            this.letters = this.letters.map(letter => letter.isHinted ? {...letter, isHinted: false} : letter);
             this.hints -= 1;
+            this.unhint();
 
             const remainedCurrentClubs = this.currentClubs.filter(club => !this.piniaState.guessedClubs.has(club));
             const index = getRandomNum(0, remainedCurrentClubs.length);
@@ -132,13 +132,18 @@ export default defineComponent({
                 .split('')
                 .forEach(letter => {
                     const hintedLetter = this.letters.find(currLetter => 
-                        currLetter.title === letter && !currLetter.isHinted && !currLetter.isGone);
+                        currLetter.title === letter && !currLetter.isHinted && !currLetter.isGone
+                    );
     
                     this.letters = this.letters
                         .map(letter => letter.id === hintedLetter?.id
                             ? {...letter, isHinted: true}
-                            : {...letter, isSelected: false});
+                            : {...letter, isSelected: false}
+                        );
                 })
+        },
+        unhint() {
+            this.letters = this.letters.map(letter => ({...letter, isHinted: false}));
         }
     },
     mounted() {
