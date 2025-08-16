@@ -28,7 +28,7 @@ export default defineComponent({
     props: {
         word: {
             type: Array as PropType<ILetter[]>,
-            required: true,            
+            required: true,
         }
     },
     data(): ILowerButtons {

@@ -1,11 +1,16 @@
-import { ALL_CLUBS, TClub, hintsAmount } from '@/constants';
+import { TClub, hintsAmount } from '@/constants';
 import { getFullClubs } from '@/utils';
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
+
+interface IStore {
+    guessedFullClubs: string[];
+    hints: number,
+}
 
 export const useStore = defineStore('guessedClubs', {
-    state: () => {
+    state: (): IStore => {
         return {
-            guessedFullClubs: [] as string[],
+            guessedFullClubs: [],
             hints: hintsAmount,
         }
     },

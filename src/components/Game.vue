@@ -1,6 +1,6 @@
 <template>
     <div>
-        <UpperButtons v-bind:hints="hints"/>
+        <UpperButtons/>
         <View
             v-bind:letters="letters"
             v-bind:word="word"
@@ -146,8 +146,6 @@ export default defineComponent({
     },
     mounted() {
         this.renewLetters();
-        console.log(this.letters);
-        
     },
 })
 </script>

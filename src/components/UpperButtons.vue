@@ -12,7 +12,7 @@ import { useStore } from '@/store'
 
 interface IUpperButtons {
     allClubsAmount: number;
-    piniaState: ReturnType <typeof useStore>;
+    pinia: ReturnType <typeof useStore>;
 }
 
 export default defineComponent({
@@ -20,12 +20,12 @@ export default defineComponent({
     data(): IUpperButtons {
         return {
             allClubsAmount: clubsAmount,
-            piniaState: useStore(),
+            pinia: useStore(),
         }
     },
     computed: {
         guessedClubsAmount(): number {
-            return this.piniaState.guessedFullClubs.length;
+            return this.pinia.guessedFullClubs.length;
         }
     }
 })
