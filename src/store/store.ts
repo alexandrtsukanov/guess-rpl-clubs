@@ -1,23 +1,20 @@
-import { ALL_CLUBS, TClub } from '@/constants';
+import { ALL_CLUBS, TClub, hintsAmount } from '@/constants';
 import { getFullClubs } from '@/utils';
 import { defineStore } from 'pinia'
 
-export const useGuessedClubsStore = defineStore('guessedClubs', {
+export const useStore = defineStore('guessedClubs', {
     state: () => {
         return {
-            guessedClubs: new Set<string>(),
             guessedFullClubs: [] as string[],
-            remainedClubs: [...ALL_CLUBS],
+            hints: hintsAmount,
         }
     },
     actions: {
         addGuessedClub(club: string) {
-            this.guessedClubs.add(club);
-            const clubs = [...this.guessedClubs] as TClub[];
-            this.guessedFullClubs = clubs.reduce((allClubs: string[], club) => [...allClubs, ...getFullClubs(club)], []);
+            this.guessedFullClubs.push(...getFullClubs(club as TClub));
         },
-        removeRemainedClub(club: string) {
-            this.remainedClubs = this.remainedClubs.filter((el: TClub) => el !== club);
-        }
+        subtractHint() {
+            this.hints -= 1;
+        },
     },
 })

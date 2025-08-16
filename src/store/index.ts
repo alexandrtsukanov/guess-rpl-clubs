@@ -1,1 +1,1 @@
-export { useGuessedClubsStore } from './store';
+export { useStore } from './store';

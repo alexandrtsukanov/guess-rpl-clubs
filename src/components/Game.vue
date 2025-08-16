@@ -8,24 +8,34 @@
             @pop-letter="popLetter"
         />
         <LowerButtons
+            v-bind:word="word"
             @check-club="checkClub"
             @renew-letters="renewLetters"
             @hint="hint"
-            v-bind:hintsNum="hints"
         />
     </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import {ALL_CLUBS, hintsAmount} from '@/constants';
+import {ALL_CLUBS, TClub} from '@/constants';
 import View from '@/components/View.vue'
 import LowerButtons from '@/components/LowerButtons.vue'
 import UpperButtons from '@/components/UpperButtons.vue'
 import { ILetter } from '@/types';
 import { getLetters, getWord } from '@/utils';
-import { useGuessedClubsStore } from '@/store';
+import { useStore } from '@/store';
 import { getRandomNum } from '@/utils/getRandomNum';
+
+interface IGame {
+    allClubs: Set<string>;
+    guessedClubs: Set<string>;
+    remainedClubs: TClub[];
+    letters: ILetter[];
+    word: ILetter[];
+    currentClubs: string[];
+    pinia: ReturnType<typeof useStore>;
+}
 
 export default defineComponent({
     name: 'Game',
@@ -34,19 +44,15 @@ export default defineComponent({
         LowerButtons,
         UpperButtons,
     },
-    data() {
+    data(): IGame {
         return {
             allClubs: new Set<string>(ALL_CLUBS),
-            letters: [] as ILetter[],
-            word: [] as ILetter[],
-            currentClubs: [] as string[],
-            states: {
-                notGuessed: false,
-                alreadyGuessed: false,
-                guessed: false,
-            },
-            hints: hintsAmount,
-            piniaState: useGuessedClubsStore(),
+            guessedClubs: new Set<string>(),
+            remainedClubs: [...ALL_CLUBS],
+            letters: [],
+            word: [],
+            currentClubs: [],
+            pinia: useStore(),
         }
     },
     methods: {
@@ -54,21 +60,19 @@ export default defineComponent({
             const club = getWord(this.word);
 
             if (this.allClubs.has(club)) {
-                if (this.piniaState.guessedClubs.has(club)) {
-                    this.states.alreadyGuessed = true;
+                if (this.guessedClubs.has(club)) {
                     alert('ALREADY GUESSED')
                 } else {
-                    this.states.guessed = true;
                     this.guessClub(club);
                 } 
             } else {
-                this.states.notGuessed = true;
                 alert('NOT CORRECT')
             }
         },
         guessClub(club: string) {
-            this.piniaState.addGuessedClub(club);
-            this.piniaState.removeRemainedClub(club); 
+            this.guessedClubs.add(club);
+            this.pinia.addGuessedClub(club);
+            this.remainedClubs = this.remainedClubs.filter((el: TClub) => el !== club);
             this.word = [];
             this.unhint();
 
@@ -78,11 +82,11 @@ export default defineComponent({
                 this.renewLetters();
             }
 
-            if (this.currentClubs.every(club => this.piniaState.guessedClubs.has(club))) {
+            if (this.currentClubs.every(club => this.guessedClubs.has(club))) {
                 this.renewLetters();
             }
 
-            if (this.piniaState.remainedClubs.length === 0) {
+            if (this.remainedClubs.length === 0) {
                 alert('YOU WIN!');
             }
         },
@@ -104,27 +108,21 @@ export default defineComponent({
             }
             this.letters = this.letters.map((el) => el.id === letter.id ? {...el, isSelected: false} : el);
         },
-        resetStates() {
-            this.states.alreadyGuessed = false;
-            this.states.guessed = false;
-            this.states.notGuessed = false;
-        },
         renewLetters() {
             this.currentClubs = [];
-            this.letters = getLetters(this.piniaState.remainedClubs, this.currentClubs);
+            this.letters = getLetters(this.remainedClubs, this.currentClubs);
             this.word = [];
-            console.log('currentClubs =>', this.currentClubs);
         },
-        hint() {
-            if (!this.hints) {
+        async hint() {
+            if (!this.pinia.hints) {
                 alert('YOU HAVE NO HINTS')
                 return;
             }
 
-            this.hints -= 1;
+            this.pinia.subtractHint();
             this.unhint();
 
-            const remainedCurrentClubs = this.currentClubs.filter(club => !this.piniaState.guessedClubs.has(club));
+            const remainedCurrentClubs = this.currentClubs.filter(club => !this.guessedClubs.has(club));
             const index = getRandomNum(0, remainedCurrentClubs.length);
             const hintedClub = remainedCurrentClubs[index];
 
@@ -148,6 +146,8 @@ export default defineComponent({
     },
     mounted() {
         this.renewLetters();
+        console.log(this.letters);
+        
     },
 })
 </script>

@@ -15,6 +15,10 @@ import Letter from '@/components/Letter.vue'
 import {TClub} from '@/constants';
 import {ILetter} from '@/types';
 
+interface ILetters {
+    currentClubs: TClub[];
+}
+
 export default defineComponent({
     name: 'Letters',
     components: {
@@ -26,7 +30,7 @@ export default defineComponent({
             required: true,
         },
     },
-    data() {
+    data(): ILetters {
         return {
             currentClubs: [] as TClub[],
         }

@@ -5,21 +5,26 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { defineComponent } from 'vue'
 import { clubsAmount } from '@/constants'
-import { useGuessedClubsStore } from '@/store'
+import { useStore } from '@/store'
+
+interface IUpperButtons {
+    allClubsAmount: number;
+    piniaState: ReturnType <typeof useStore>;
+}
 
 export default defineComponent({
     name: 'UpperButtons',
-    data() {
+    data(): IUpperButtons {
         return {
             allClubsAmount: clubsAmount,
-            piniaState: useGuessedClubsStore(),
+            piniaState: useStore(),
         }
     },
     computed: {
-        guessedClubsAmount() {
+        guessedClubsAmount(): number {
             return this.piniaState.guessedFullClubs.length;
         }
     }

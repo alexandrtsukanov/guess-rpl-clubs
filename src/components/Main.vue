@@ -28,4 +28,8 @@ export default defineComponent({
         padding: 4px 8px;
         margin: 8px;
     }
+
+    * {
+        user-select: none;
+    }
 </style>

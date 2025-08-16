@@ -2,7 +2,7 @@
     <div>
         <router-link to="/">BACK TO GAME</router-link>
 
-        <div v-for:="club in piniaState.guessedFullClubs" :key="club">
+        <div v-for:="club in pinia.guessedFullClubs" :key="club">
             {{club}}
         </div>
     </div>
@@ -10,13 +10,17 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useGuessedClubsStore } from '@/store';
+import { useStore } from '@/store';
+
+interface IClubList {
+    pinia: ReturnType<typeof useStore>;
+}
 
 export default defineComponent({
     name: 'ClubList',
-    data() {
+    data(): IClubList {
         return {
-            piniaState: useGuessedClubsStore(),
+            pinia: useStore(),
         }
     },
 })

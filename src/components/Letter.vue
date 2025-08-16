@@ -3,8 +3,8 @@
         v-if="!letter.isCross"
         v-on:click="$emit('push-letter', letter)"
         v-bind:class="{
-            selected: letter.isSelected,
             space: letter.isSpace,
+            selected: letter.isSelected,
             gone: letter.isGone,
             hinted: letter.isHinted,
         }"
@@ -14,6 +14,7 @@
     <span
         v-else
         v-on:click="$emit('pop-letter')"
+        v-bind:class="{cross: letter.isCross}"
     >
         {{letter.title}}
     </span>
@@ -42,7 +43,7 @@ export default defineComponent({
         border: .5px solid #111;
         border-radius: 8px;
         background: gainsboro;
-        font-size: 21px;
+        font-size: 22px;
         font-weight: 600;
         display: flex;
         justify-content: center;
@@ -72,5 +73,10 @@ export default defineComponent({
 
     .space {
         width: 162px;
+    }
+
+    .cross {
+        font-size: 19px;
+        font-weight: 900;
     }
 </style>
