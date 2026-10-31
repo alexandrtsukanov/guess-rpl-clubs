@@ -8,9 +8,9 @@ import { mapLetters } from "./mapLetters";
 import { composeArrayLike } from "./compose";
 
 export const getLetters = composeArrayLike<[TClub[], string[]], ILetter[]>(
-    mapLetters,
-    addSymbols,
-    mixLetters,
-    completeLetters,
     chooseInitLetters,
+    completeLetters,
+    mixLetters,
+    addSymbols,
+    mapLetters,
 )

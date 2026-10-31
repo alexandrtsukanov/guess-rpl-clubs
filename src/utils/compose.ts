@@ -7,11 +7,11 @@ export const composeArrayLike =
     }
 
     return (...args: Args): Result => {
-        const lastFn = fns[fns.length - 1];
-        const firstResult = lastFn(...args);
+        const firstFn = fns[0];
+        const firstResult = firstFn(...args);
 
-        return fns.reduceRight((res, fn, i, arr) => {
-            if (i === arr.length - 1) {
+        return fns.reduce((res, fn, i) => {
+            if (i === 0) {
                 return res;
             }
 
