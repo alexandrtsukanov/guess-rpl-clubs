@@ -3,8 +3,7 @@ export const composeArrayLike =
     ((...args: Args) => Result) =>
 {
     if (!fns.length) {
-        // @ts-ignore
-        return () => []
+        return () => [] as any[] as Result
     }
 
     return (...args: Args): Result => {
